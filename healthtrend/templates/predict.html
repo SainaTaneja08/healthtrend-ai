@@ -1,0 +1,16 @@
+{% extends "base.html" %}{% block body %}
+<h1>Risk Prediction</h1>
+{% if error %}<p class="err">{{ error }}</p>{% endif %}
+{% if result %}<div class="card result {{ result.risk_level|lower }}">
+<h2>{{ result.risk_level }} risk indicator</h2>
+<p>Model probability: <b>{{ (result.probability*100)|round(1) }}%</b> (class {{ result.prediction }})</p>
+<small>Educational output only, not a diagnosis.</small></div>{% endif %}
+<form method="post">
+{% for k,(label,lo,hi,opts) in fields.items() %}
+<label>{{ label }}
+{% if opts %}<select name="{{ k }}">{% for v,t in opts.items() %}
+<option value="{{ v }}" {{ 'selected' if form.get(k)|string==v|string }}>{{ t }}</option>{% endfor %}</select>
+{% else %}<input name="{{ k }}" type="number" step="any" min="{{ lo }}" max="{{ hi }}" value="{{ form.get(k,'') }}" required>{% endif %}
+</label>{% endfor %}
+<button class="btn">Predict</button></form>
+{% endblock %}
