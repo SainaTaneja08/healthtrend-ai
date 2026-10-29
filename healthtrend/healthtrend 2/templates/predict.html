@@ -1,0 +1,22 @@
+{% extends "base.html" %}{% block body %}
+<h1>Risk Prediction</h1>
+{% if error %}<p class="err">{{ error }}</p>{% endif %}
+{% if result %}<div class="card result {{ result.risk_level|lower }}">
+<h2>{{ result.risk_level }} risk indicator</h2>
+<p>Model probability: <b>{{ (result.probability*100)|round(1) }}%</b> (class {{ result.prediction }})</p>
+<h3>Main factors (compared with a typical patient)</h3>
+<table class="t"><tr><th>Input</th><th>Your value</th><th>Effect</th></tr>
+{% for f in result.top_factors %}<tr><td>{{ f.label }}</td><td>{{ f.value }}</td>
+<td class="{{ 'up' if f.effect>0 else 'down' }}">{{ '&#9650; raises' if f.effect>0 else '&#9660; lowers' }} risk ({{ '%+.1f'|format(f.effect*100) }} pts)</td></tr>{% endfor %}</table>
+<a class="btn" href="/report/{{ result.id }}.pdf">Download PDF report</a>
+<a class="btn" href="/history">View history</a>
+<p><small>Educational output only, not a diagnosis.</small></p></div>{% endif %}
+<form method="post">
+{% for k,(label,lo,hi,opts) in fields.items() %}
+<label>{{ label }}
+{% if opts %}<select name="{{ k }}">{% for v,t in opts.items() %}
+<option value="{{ v }}" {{ 'selected' if form.get(k)|string==v|string }}>{{ t }}</option>{% endfor %}</select>
+{% else %}<input name="{{ k }}" type="number" step="any" min="{{ lo }}" max="{{ hi }}" value="{{ form.get(k,'') }}" required>{% endif %}
+</label>{% endfor %}
+<button class="btn">Predict</button></form>
+{% endblock %}

@@ -1,0 +1,15 @@
+{% extends "base.html" %}{% block body %}
+<h1>HealthTrend AI</h1>
+<p>Cloud-based health data analytics and risk prediction, built as an integrated academic project.</p>
+<div class="grid">
+<div class="card"><h3>{{ s.rows }}</h3>patient records analysed</div>
+<div class="card"><h3>{{ s.features }}</h3>clinical features</div>
+<div class="card"><h3>{{ s.best_model }}</h3>selected model</div></div>
+<h2>How it covers the three subjects</h2>
+<ul><li><b>FDSA:</b> data cleaning, EDA, charts, ML model and evaluation.</li>
+<li><b>IDCCN:</b> client/server design over HTTP, REST API, tested from Python and a Packet Tracer network.</li>
+<li><b>Cloud Computing:</b> hosted deployment, access control, storage and availability.</li></ul>
+<h2>Limitations</h2>
+<p>The dataset is small (about 300 rows) and the model has not been clinically validated. Results are for learning only and must never be used for real medical decisions.</p>
+<a class="btn" href="/predict">Try the prediction form</a>
+{% endblock %}
