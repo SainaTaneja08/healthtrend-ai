@@ -1,9 +1,0 @@
-flask==3.0.3
-pandas
-numpy
-scikit-learn
-matplotlib
-joblib
-requests
-gunicorn
-reportlab
