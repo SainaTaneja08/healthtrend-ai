@@ -9,7 +9,7 @@ from sklearn.preprocessing import StandardScaler
 from sklearn.pipeline import Pipeline
 from sklearn.linear_model import LogisticRegression
 from sklearn.ensemble import RandomForestClassifier
-from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix
+from sklearn.metrics import accuracy_score, precision_score, recall_score, f1_score, confusion_matrix, roc_auc_score
 
 FEATURES = ["age","sex","cp","trestbps","chol","fbs","restecg","thalach","exang","oldpeak","slope","ca","thal"]
 
@@ -42,7 +42,7 @@ results, best_name, best_f1 = {}, None, -1
 for name, pipe in models.items():
     pipe.fit(Xtr, ytr); p = pipe.predict(Xte)
     r = {"accuracy": accuracy_score(yte, p), "precision": precision_score(yte, p),
-         "recall": recall_score(yte, p), "f1": f1_score(yte, p),
+         "recall": recall_score(yte, p), "f1": f1_score(yte, p), "roc_auc": roc_auc_score(yte, pipe.predict_proba(Xte)[:, 1]),
          "cv_accuracy": cross_val_score(pipe, X, y, cv=5).mean(),
          "confusion_matrix": confusion_matrix(yte, p).tolist()}
     results[name] = {k: (round(v, 3) if isinstance(v, float) else v) for k, v in r.items()}
