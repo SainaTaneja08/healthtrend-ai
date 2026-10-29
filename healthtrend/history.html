@@ -1,9 +1,0 @@
-{% extends "base.html" %}{% block body %}
-<h1>Prediction History</h1>
-<p>{{ total }} prediction(s) saved. Showing the latest {{ items|length }}.</p>
-{% if items %}<div style="overflow-x:auto"><table class="t"><tr><th>#</th><th>Time</th><th>Risk</th><th>Probability</th><th>Age</th><th>Sex</th><th>Chol</th><th>Source</th><th>Report</th></tr>
-{% for i in items %}<tr><td>{{ i.id }}</td><td>{{ i.ts }}</td><td>{{ i.level }}</td><td>{{ i.prob }}%</td><td>{{ i.age }}</td><td>{{ i.sex }}</td><td>{{ i.chol }}</td><td>{{ i.source }}</td>
-<td><a href="/report/{{ i.id }}.pdf">PDF</a></td></tr>{% endfor %}</table></div>
-{% else %}<p>No predictions yet. <a href="/predict">Make one</a>.</p>{% endif %}
-<p><small>History is stored in a SQLite database. On the free cloud plan it resets when the service restarts.</small></p>
-{% endblock %}
